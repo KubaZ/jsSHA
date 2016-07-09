@@ -378,15 +378,15 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		for (i = 0; i < length; i += 3)
 		{
 			offset = (i + 1) >>> 2;
-			int1 = (binarray.length <= offset) ? 0 : binarray[offset];
+			int1 = ((outputLength / 32) <= offset) ? 0 : binarray[offset];
 			offset = (i + 2) >>> 2;
-			int2 = (binarray.length <= offset) ? 0 : binarray[offset];
+			int2 = ((outputLength / 32) <= offset) ? 0 : binarray[offset];
 			triplet = (((binarray[i >>> 2] >>> 8 * (3 - i % 4)) & 0xFF) << 16) |
 				(((int1 >>> 8 * (3 - (i + 1) % 4)) & 0xFF) << 8) |
 				((int2 >>> 8 * (3 - (i + 2) % 4)) & 0xFF);
 			for (j = 0; j < 4; j += 1)
 			{
-				if (i * 8 + j * 6 <= binarray.length * 32)
+				if (i * 8 + j * 6 <= outputLength)
 				{
 					str += b64Tab.charAt((triplet >>> 6 * (3 - j)) & 0x3F);
 				}
@@ -1675,6 +1675,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		for (i = 0; i < remainderIntLen && remainderBinLen >= blockSize; i += binaryStringInc)
 		{
 			state = roundSHA3(remainder.slice(i, i + binaryStringInc), state);
+			remainderBinLen -= blockSize
 		}
 
 		remainder = remainder.slice(i);
@@ -1697,6 +1698,10 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		{
 			temp = state[state_offset % 5][(state_offset / 5) | 0]
 			retVal.push((temp.lowOrder & 0xFF) << 24 | (temp.lowOrder & 0xFF00) << 8 | (temp.lowOrder & 0xFF0000) >> 8 | temp.lowOrder >>> 24)
+			if (retVal.length >= ouputIntLen)
+			{
+				break
+			}
 			retVal.push((temp.highOrder & 0xFF) << 24 | (temp.highOrder & 0xFF00) << 8 | (temp.highOrder & 0xFF0000) >> 8 | temp.highOrder >>> 24)
 			state_offset += 1;
 
@@ -1870,6 +1875,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			 * the hash's block size */
 			if (blockByteSize < (keyBinLen / 8))
 			{
+
 				keyToUse = finalizeFunc(keyToUse, keyBinLen, 0, getNewState(shaVariant));
 				/* For all variants, the block size is bigger than the output
 				 * size so there will never be a useful byte at the end of the

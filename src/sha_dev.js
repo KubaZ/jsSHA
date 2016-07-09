@@ -1666,7 +1666,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	function finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, blockSize, delimiter, ouputLen)
 	{
 		var i, retVal = [], binaryStringInc = blockSize >>> 5, state_offset = 0,
-			remainderIntLen = remainderBinLen >>> 5, temp, ouputIntLen = ouputLen >> 5;
+			remainderIntLen = remainderBinLen >>> 5, temp;
 
 
 		/* Process as many blocks as possible, some may be here for multiple rounds
@@ -1694,11 +1694,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		remainder[binaryStringInc - 1] ^= 0x80
 		state = roundSHA3(remainder, state);
 
-		while (retVal.length < ouputIntLen)
+		while (retVal.length * 32 < ouputLen)
 		{
 			temp = state[state_offset % 5][(state_offset / 5) | 0]
 			retVal.push((temp.lowOrder & 0xFF) << 24 | (temp.lowOrder & 0xFF00) << 8 | (temp.lowOrder & 0xFF0000) >> 8 | temp.lowOrder >>> 24)
-			if (retVal.length >= ouputIntLen)
+			if (retVal.length * 32 >= ouputLen)
 			{
 				break
 			}

@@ -54,11 +54,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * @param {string} str String to be converted to binary representation
 	 * @param {string} utfType The Unicode type, UTF8 or UTF16BE, UTF16LE, to
 	 *   use to encode the source string
-	 * @param {Array.<number>} existingBin A packed int array of bytes to
+	 * @param {Array<number>} existingBin A packed int array of bytes to
 	 *   append the results to
 	 * @param {number} existingBinLen The number of bits in the existingBin
 	 *   array
-	 * @return {{value : Array.<number>, binLen : number}} Hash list where
+	 * @return {{value : Array<number>, binLen : number}} Hash list where
 	 *   "value" contains the output number array and "binLen" is the binary
 	 *   length of "value"
 	 */
@@ -150,11 +150,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 *
 	 * @private
 	 * @param {string} str String to be converted to binary representation
-	 * @param {Array.<number>} existingBin A packed int array of bytes to
+	 * @param {Array<number>} existingBin A packed int array of bytes to
 	 *   append the results to
 	 * @param {number} existingBinLen The number of bits in the existingBin
 	 *   array
-	 * @return {{value : Array.<number>, binLen : number}} Hash list where
+	 * @return {{value : Array<number>, binLen : number}} Hash list where
 	 *   "value" contains the output number array and "binLen" is the binary
 	 *   length of "value"
 	 */
@@ -199,11 +199,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 *
 	 * @private
 	 * @param {string} str String of raw bytes to be converted to binary representation
-	 * @param {Array.<number>} existingBin A packed int array of bytes to
+	 * @param {Array<number>} existingBin A packed int array of bytes to
 	 *   append the results to
 	 * @param {number} existingBinLen The number of bits in the existingBin
 	 *   array
-	 * @return {{value : Array.<number>, binLen : number}} Hash list where
+	 * @return {{value : Array<number>, binLen : number}} Hash list where
 	 *   "value" contains the output number array and "binLen" is the binary
 	 *   length of "value"
 	 */
@@ -237,11 +237,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 *
 	 * @private
 	 * @param {string} str String to be converted to binary representation
-	 * @param {Array.<number>} existingBin A packed int array of bytes to
+	 * @param {Array<number>} existingBin A packed int array of bytes to
 	 *   append the results to
 	 * @param {number} existingBinLen The number of bits in the existingBin
 	 *   array
-	 * @return {{value : Array.<number>, binLen : number}} Hash list where
+	 * @return {{value : Array<number>, binLen : number}} Hash list where
 	 *   "value" contains the output number array and "binLen" is the binary
 	 *   length of "value"
 	 */
@@ -300,11 +300,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * @private
 	 * @param {ArrayBuffer} arr ArrayBuffer to be converted to binary
 	 *   representation
-	 * @param {Array.<number>} existingBin A packed int array of bytes to
+	 * @param {Array<number>} existingBin A packed int array of bytes to
 	 *   append the results to
 	 * @param {number} existingBinLen The number of bits in the existingBin
 	 *   array
-	 * @return {{value : Array.<number>, binLen : number}} Hash list where
+	 * @return {{value : Array<number>, binLen : number}} Hash list where
 	 *   "value" contains the output number array and "binLen" is the binary
 	 *   length of "value"
 	 */
@@ -334,7 +334,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Convert an array of big-endian words to a hex string.
 	 *
 	 * @private
-	 * @param {Array.<number>} binarray Array of integers to be converted to
+	 * @param {Array<number>} binarray Array of integers to be converted to
 	 *   hexidecimal representation
 	 * @param {number} outputLength Length of output in bits
 	 * @param {{outputUpper : boolean, b64Pad : string}} formatOpts Hash list
@@ -362,7 +362,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Convert an array of big-endian words to a base-64 string
 	 *
 	 * @private
-	 * @param {Array.<number>} binarray Array of integers to be converted to
+	 * @param {Array<number>} binarray Array of integers to be converted to
 	 *   base-64 representation
 	 * @param {number} outputLength Length of output in bits
 	 * @param {{outputUpper : boolean, b64Pad : string}} formatOpts Hash list
@@ -403,7 +403,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Convert an array of big-endian words to raw bytes string
 	 *
 	 * @private
-	 * @param {Array.<number>} binarray Array of integers to be converted to
+	 * @param {Array<number>} binarray Array of integers to be converted to
 	 *   a raw bytes string representation
 	 * @param {number} outputLength Length of output in bits
 	 * @return {string} Raw bytes representation of the parameter in string
@@ -426,7 +426,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Convert an array of big-endian words to an ArrayBuffer
 	 *
 	 * @private
-	 * @param {Array.<number>} binarray Array of integers to be converted to
+	 * @param {Array<number>} binarray Array of integers to be converted to
 	 *   an ArrayBuffer
 	 * @param {number} outputLength Length of output in bits
 	 * @return {ArrayBuffer} Raw bytes representation of the parameter in an
@@ -487,8 +487,8 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * @param {string} format The format of the string to be converted
 	 * @param {string} utfType The string encoding to use (UTF8, UTF16BE,
 	 *	UTF16LE)
-	 * @return {function(string, Array.<number>=, number=): {value :
-	 *   Array.<number>, binLen : number}} Function that will convert an input
+	 * @return {function(string, Array<number>=, number=): {value :
+	 *   Array<number>, binLen : number}} Function that will convert an input
 	 *   string to a packed int array
 	 */
 	function getStrConverter(format, utfType)
@@ -1033,8 +1033,8 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Returns a clone of the given SHA3 state
 	 *
 	 * @private
-	 * @param {{Array.<{Array.<Int_64>}>}} state The state to be cloned
-	 * @return {{Array.<{Array.<Int_64>}>}} The cloned state
+	 * @param {Array<Array<Int_64>>} state The state to be cloned
+	 * @return {Array<Array<Int_64>>} The cloned state
 	 */
 	function cloneSHA3State(state) {
 		var clone = [], i;
@@ -1050,7 +1050,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Gets the state values for the specified SHA variant
 	 *
 	 * @param {string} variant The SHA variant
-	 * @return {Array.<number|Int_64|{Array.<null>}>} The initial state values
+	 * @return {Array<number|Int_64|Array<null>>} The initial state values
 	 */
 	function getNewState(variant)
 	{
@@ -1062,7 +1062,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0
 			];
 		}
-		else if (variant.startsWith("SHA-") && (6 & SUPPORTED_ALGS))
+		else if ((variant.lastIndexOf("SHA-", 0) === 0) && (6 & SUPPORTED_ALGS))
 		{
 			H_trunc = [
 				0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939,
@@ -1109,7 +1109,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("Unknown SHA variant");
 			}
 		}
-		else if ((variant.startsWith("SHA3-") || variant.startsWith("SHAKE")) &&
+		else if (((variant.lastIndexOf("SHA3-", 0) === 0) || (variant.lastIndexOf("SHAKE", 0) === 0)) &&
 			(8 & SUPPORTED_ALGS))
 		{
 			for (i = 0; i < 5; i++)
@@ -1129,11 +1129,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Performs a round of SHA-1 hashing over a 512-byte block
 	 *
 	 * @private
-	 * @param {Array.<number>} block The binary array representation of the
+	 * @param {Array<number>} block The binary array representation of the
 	 *   block to hash
-	 * @param {Array.<number>} H The intermediate H values from a previous
+	 * @param {Array<number>} H The intermediate H values from a previous
 	 *   round
-	 * @return {Array.<number>} The resulting H values
+	 * @return {Array<number>} The resulting H values
 	 */
 	function roundSHA1(block, H)
 	{
@@ -1193,14 +1193,14 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Finalizes the SHA-1 hash
 	 *
 	 * @private
-	 * @param {Array.<number>} remainder Any leftover unprocessed packed ints
+	 * @param {Array<number>} remainder Any leftover unprocessed packed ints
 	 *   that still need to be processed
 	 * @param {number} remainderBinLen The number of bits in remainder
 	 * @param {number} processedBinLen The number of bits already
 	 *   processed
-	 * @param {Array.<number>} H The intermediate H values from a previous
+	 * @param {Array<number>} H The intermediate H values from a previous
 	 *   round
-	 * @return {Array.<number>} The array of integers representing the SHA-1
+	 * @return {Array<number>} The array of integers representing the SHA-1
 	 *   hash of message
 	 */
 	function finalizeSHA1(remainder, remainderBinLen, processedBinLen, H)
@@ -1339,12 +1339,12 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Performs a round of SHA-2 hashing over a block
 	 *
 	 * @private
-	 * @param {Array.<number>} block The binary array representation of the
+	 * @param {Array<number>} block The binary array representation of the
 	 *   block to hash
-	 * @param {Array.<number|Int_64>} H The intermediate H values from a previous
+	 * @param {Array<number|Int_64>} H The intermediate H values from a previous
 	 *   round
 	 * @param {string} variant The desired SHA-2 variant
-	 * @return {Array.<number|Int_64>} The resulting H values
+	 * @return {Array<number|Int_64>} The resulting H values
 	 */
 	function roundSHA2(block, H, variant)
 	{
@@ -1450,15 +1450,15 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Finalizes the SHA-2 hash
 	 *
 	 * @private
-	 * @param {Array.<number>} remainder Any leftover unprocessed packed ints
+	 * @param {Array<number>} remainder Any leftover unprocessed packed ints
 	 *   that still need to be processed
 	 * @param {number} remainderBinLen The number of bits in remainder
 	 * @param {number} processedBinLen The number of bits already
 	 *   processed
-	 * @param {Array.<number|Int_64>} H The intermediate H values from a previous
+	 * @param {Array<number|Int_64>} H The intermediate H values from a previous
 	 *   round
 	 * @param {string} variant The desired SHA-2 variant
-	 * @return {Array.<number>} The array of integers representing the SHA-2
+	 * @return {Array<number>} The array of integers representing the SHA-2
 	 *   hash of message
 	 */
 	function finalizeSHA2(remainder, remainderBinLen, processedBinLen, H, variant)
@@ -1562,11 +1562,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Performs a round of SHA-3 hashing over a block
 	 *
 	 * @private
-	 * @param {Array.<number>|null} block The binary array representation of the
+	 * @param {Array<number>|null} block The binary array representation of the
 	 *   block to hash
-	 * @param {Array.<{Array.<Int_64>}>} state The binary array representation of the
+	 * @param {Array<Array<Int_64>>} state The binary array representation of the
 	 *   block to hash
-	 * @return {Array.<{Array.<Int_64>}>} The resulting state value
+	 * @return {Array<Array<Int_64>>} The resulting state value
 	 */
 	function roundSHA3(block, state)
 	{
@@ -1651,16 +1651,16 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * Finalizes the SHA-3 hash
 	 *
 	 * @private
-	 * @param {Array.<number>} remainder Any leftover unprocessed packed ints
+	 * @param {Array<number>} remainder Any leftover unprocessed packed ints
 	 *   that still need to be processed
 	 * @param {number} remainderBinLen The number of bits in remainder
 	 * @param {number} processedBinLen The number of bits already
 	 *   processed
-	 * @param {Array.<{Array.<Int_64>}>} state The state from a previous round
+	 * @param {Array<Array<Int_64>>} state The state from a previous round
 	 * @param {number} blockSize The block size/rate of the variant in bits
 	 * @param {number} delimiter The delimiter value for the variant
 	 * @param {number} ouputLen The output length for the variant in bits
-	 * @return {Array.<number>} The array of integers representing the SHA-3
+	 * @return {Array<number>} The array of integers representing the SHA-3
 	 *   hash of message
 	 */
 	function finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, blockSize, delimiter, ouputLen)
@@ -1754,7 +1754,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			outputBinLen = 160;
 			stateCloneFunc = function(state) { return state.slice()};
 		}
-		else if (shaVariant.startsWith("SHA-") && (6 & SUPPORTED_ALGS))
+		else if ((shaVariant.lastIndexOf("SHA-", 0) === 0) && (6 & SUPPORTED_ALGS))
 		{
 			roundFunc = function (block, H) {
 				return roundSHA2(block, H, shaVariant);
@@ -1790,7 +1790,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("Chosen SHA variant is not supported");
 			}
 		}
-		else if (shaVariant.startsWith("SHA3-") && (8 & SUPPORTED_ALGS))
+		else if ((shaVariant.lastIndexOf("SHA3-", 0) === 0) && (8 & SUPPORTED_ALGS))
 		{
 			roundFunc = roundSHA3;
 			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, state)
@@ -2043,7 +2043,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				} catch (err) {
 					throw new Error("ARRAYBUFFER not supported by this environment");
 				}
-				formatFunc = function(binarray) {return binb2bytes(binb2arraybuffer, outputBinLen);};;
+				formatFunc = function(binarray) {return binb2arraybuffer(binarray, outputBinLen);};;
 				break;
 			default:
 				throw new Error("outputFormat must be HEX, B64, BYTES, or ARRAYBUFFER");

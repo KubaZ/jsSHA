@@ -97,6 +97,47 @@ var hashTests = [
 		]
 	},
 	{
+		"hash": "SHA3-224",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"},
+					{"type": "HEX", "value": "616263"},
+					{"type": "B64", "value": "YWJj"},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "e642824c3f8cf24ad09234ee7d3c766fc9a3a5168d0c94ad73b46fdf"},
+					{"type": "B64", "value": "5kKCTD+M8krQkjTufTx2b8mjpRaNDJStc7Rv3w=="},
+				]
+			},
+			{
+				"name": "Medium",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"},
+					{"type": "HEX", "value": "6162636462636465636465666465666765666768666768696768696A68696A6B696A6B6C6A6B6C6D6B6C6D6E6C6D6E6F6D6E6F706E6F7071"},
+					{"type": "B64", "value": "YWJjZGJjZGVjZGVmZGVmZ2VmZ2hmZ2hpZ2hpamhpamtpamtsamtsbWtsbW5sbW5vbW5vcG5vcHE="},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "8a24108b154ada21c9fd5574494479ba5c7e7ab76ef264ead0fcce33"},
+					{"type": "B64", "value": "iiQQixVK2iHJ/VV0SUR5ulx+erdu8mTq0PzOMw=="},
+				]
+			},
+			{
+				"name": "Long",
+				"ptInputs": [
+					{"type": "TEXT", "value": millionaAscii},
+					{"type": "HEX", "value": millionaHex},
+					{"type": "B64", "value": millionaB64},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "d69335b93325192e516a912e6d19a15cb51c6ed5c15243e7a7fd653c"},
+					{"type": "B64", "value": "1pM1uTMlGS5RapEubRmhXLUcbtXBUkPnp/1lPA=="},
+				]
+			}
+		]
+	},
+	{
 		"hash": "SHA-256",
 		"tests": [
 			{
@@ -133,6 +174,47 @@ var hashTests = [
 				"outputs" : [
 					{"type": "HEX", "value": "cdc76e5c9914fb9281a1c7e284d73e67f1809a48a497200e046d39ccc7112cd0"},
 					{"type": "B64", "value": "zcduXJkU+5KBocfihNc+Z/GAmkiklyAOBG05zMcRLNA="},
+				]
+			}
+		]
+	},
+	{
+		"hash": "SHA3-256",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"},
+					{"type": "HEX", "value": "616263"},
+					{"type": "B64", "value": "YWJj"},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532"},
+					{"type": "B64", "value": "Ophdp0/iJbIEXBcta9OQvYVfCG4+nVJbRr/iRRFDFTI="},
+				]
+			},
+			{
+				"name": "Medium",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"},
+					{"type": "HEX", "value": "6162636462636465636465666465666765666768666768696768696A68696A6B696A6B6C6A6B6C6D6B6C6D6E6C6D6E6F6D6E6F706E6F7071"},
+					{"type": "B64", "value": "YWJjZGJjZGVjZGVmZGVmZ2VmZ2hmZ2hpZ2hpamhpamtpamtsamtsbWtsbW5sbW5vbW5vcG5vcHE="},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "41c0dba2a9d6240849100376a8235e2c82e1b9998a999e21db32dd97496d3376"},
+					{"type": "B64", "value": "QcDboqnWJAhJEAN2qCNeLILhuZmKmZ4h2zLdl0ltM3Y="},
+				]
+			},
+			{
+				"name": "Long",
+				"ptInputs": [
+					{"type": "TEXT", "value": millionaAscii},
+					{"type": "HEX", "value": millionaHex},
+					{"type": "B64", "value": millionaB64},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "5c8875ae474a3634ba4fd55ec85bffd661f32aca75c6d699d0cdcb6c115891c1"},
+					{"type": "B64", "value": "XIh1rkdKNjS6T9VeyFv/1mHzKsp1xtaZ0M3LbBFYkcE="},
 				]
 			}
 		]
@@ -179,6 +261,47 @@ var hashTests = [
 		]
 	},
 	{
+		"hash": "SHA3-384",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"},
+					{"type": "HEX", "value": "616263"},
+					{"type": "B64", "value": "YWJj"},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "ec01498288516fc926459f58e2c6ad8df9b473cb0fc08c2596da7cf0e49be4b298d88cea927ac7f539f1edf228376d25"},
+					{"type": "B64", "value": "7AFJgohRb8kmRZ9Y4satjfm0c8sPwIwlltp88OSb5LKY2IzqknrH9Tnx7fIoN20l"},
+				]
+			},
+			{
+				"name": "Medium",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"},
+					{"type": "HEX", "value": "61626364656667686263646566676869636465666768696A6465666768696A6B65666768696A6B6C666768696A6B6C6D6768696A6B6C6D6E68696A6B6C6D6E6F696A6B6C6D6E6F706A6B6C6D6E6F70716B6C6D6E6F7071726C6D6E6F707172736D6E6F70717273746E6F707172737475"},
+					{"type": "B64", "value": "YWJjZGVmZ2hiY2RlZmdoaWNkZWZnaGlqZGVmZ2hpamtlZmdoaWprbGZnaGlqa2xtZ2hpamtsbW5oaWprbG1ub2lqa2xtbm9wamtsbW5vcHFrbG1ub3Bxcmxtbm9wcXJzbW5vcHFyc3Rub3BxcnN0dQ=="},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "79407d3b5916b59c3e30b09822974791c313fb9ecc849e406f23592d04f625dc8c709b98b43b3852b337216179aa7fc7"},
+					{"type": "B64", "value": "eUB9O1kWtZw+MLCYIpdHkcMT+57MhJ5AbyNZLQT2JdyMcJuYtDs4UrM3IWF5qn/H"},
+				]
+			},
+			{
+				"name": "Long",
+				"ptInputs": [
+					{"type": "TEXT", "value": millionaAscii},
+					{"type": "HEX", "value": millionaHex},
+					{"type": "B64", "value": millionaB64},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "eee9e24d78c1855337983451df97c8ad9eedf256c6334f8e948d252d5e0e76847aa0774ddb90a842190d2c558b4b8340"},
+					{"type": "B64", "value": "7uniTXjBhVM3mDRR35fIrZ7t8lbGM0+OlI0lLV4OdoR6oHdN25CoQhkNLFWLS4NA"},
+				]
+			}
+		]
+	},
+	{
 		"hash": "SHA-512",
 		"tests": [
 			{
@@ -215,6 +338,47 @@ var hashTests = [
 				"outputs" : [
 					{"type": "HEX", "value": "e718483d0ce769644e2e42c7bc15b4638e1f98b13b2044285632a803afa973ebde0ff244877ea60a4cb0432ce577c31beb009c5c2c49aa2e4eadb217ad8cc09b"},
 					{"type": "B64", "value": "5xhIPQznaWROLkLHvBW0Y44fmLE7IEQoVjKoA6+pc+veD/JEh36mCkywQyzld8Mb6wCcXCxJqi5OrbIXrYzAmw=="},
+				]
+			}
+		]
+	},
+	{
+		"hash": "SHA3-512",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"},
+					{"type": "HEX", "value": "616263"},
+					{"type": "B64", "value": "YWJj"},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "b751850b1a57168a5693cd924b6b096e08f621827444f70d884f5d0240d2712e10e116e9192af3c91a7ec57647e3934057340b4cf408d5a56592f8274eec53f0"},
+					{"type": "B64", "value": "t1GFCxpXFopWk82SS2sJbgj2IYJ0RPcNiE9dAkDScS4Q4RbpGSrzyRp+xXZH45NAVzQLTPQI1aVlkvgnTuxT8A=="},
+				]
+			},
+			{
+				"name": "Medium",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"},
+					{"type": "HEX", "value": "61626364656667686263646566676869636465666768696A6465666768696A6B65666768696A6B6C666768696A6B6C6D6768696A6B6C6D6E68696A6B6C6D6E6F696A6B6C6D6E6F706A6B6C6D6E6F70716B6C6D6E6F7071726C6D6E6F707172736D6E6F70717273746E6F707172737475"},
+					{"type": "B64", "value": "YWJjZGVmZ2hiY2RlZmdoaWNkZWZnaGlqZGVmZ2hpamtlZmdoaWprbGZnaGlqa2xtZ2hpamtsbW5oaWprbG1ub2lqa2xtbm9wamtsbW5vcHFrbG1ub3Bxcmxtbm9wcXJzbW5vcHFyc3Rub3BxcnN0dQ=="},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "afebb2ef542e6579c50cad06d2e578f9f8dd6881d7dc824d26360feebf18a4fa73e3261122948efcfd492e74e82e2189ed0fb440d187f382270cb455f21dd185"},
+					{"type": "B64", "value": "r+uy71QuZXnFDK0G0uV4+fjdaIHX3IJNJjYP7r8YpPpz4yYRIpSO/P1JLnToLiGJ7Q+0QNGH84InDLRV8h3RhQ=="},
+				]
+			},
+			{
+				"name": "Long",
+				"ptInputs": [
+					{"type": "TEXT", "value": millionaAscii},
+					{"type": "HEX", "value": millionaHex},
+					{"type": "B64", "value": millionaB64},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "3c3a876da14034ab60627c077bb98f7e120a2a5370212dffb3385a18d4f38859ed311d0a9d5141ce9cc5c66ee689b266a8aa18ace8282a0e0db596c90b0a7b87"},
+					{"type": "B64", "value": "PDqHbaFANKtgYnwHe7mPfhIKKlNwIS3/szhaGNTziFntMR0KnVFBzpzFxm7mibJmqKoYrOgoKg4NtZbJCwp7hw=="},
 				]
 			}
 		]

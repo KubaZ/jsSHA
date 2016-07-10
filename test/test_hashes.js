@@ -7,7 +7,7 @@ if (("undefined" !== typeof module) && module["exports"])
 }
 
 String.prototype.repeat = function(times) {
-    return (new Array(times + 1)).join(this);
+	return (new Array(times + 1)).join(this);
 }
 
 /* These are used often so make a global copy that everything can reference */
@@ -386,6 +386,100 @@ var hashTests = [
 				]
 			}
 		]
+	},
+	{
+		"hash": "SHAKE128",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"},
+					{"type": "HEX", "value": "616263"},
+					{"type": "B64", "value": "YWJj"},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "5881092dd818bf5cf8a3ddb793fbcba74097d5c526a6d35f97b83351940f2c", "shakeLen": 248},
+					{"type": "B64", "value": "WIEJLdgYv1z4o923k/vLp0CX1cUmptNfl7gzUZQPLA==", "shakeLen": 248},
+					{"type": "HEX", "value": "5881092dd818bf5cf8a3ddb793fbcba74097d5c526a6d35f97b83351940f2cc844c50af32acd3f2cdd066568706f509bc1bdde58295dae3f891a9a0fca5783", "shakeLen": 504},
+					{"type": "B64", "value": "WIEJLdgYv1z4o923k/vLp0CX1cUmptNfl7gzUZQPLMhExQrzKs0/LN0GZWhwb1Cbwb3eWCldrj+JGpoPyleD", "shakeLen": 504},
+				]
+			},
+			{
+				"name": "Medium",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"},
+					{"type": "HEX", "value": "61626364656667686263646566676869636465666768696A6465666768696A6B65666768696A6B6C666768696A6B6C6D6768696A6B6C6D6E68696A6B6C6D6E6F696A6B6C6D6E6F706A6B6C6D6E6F70716B6C6D6E6F7071726C6D6E6F707172736D6E6F70717273746E6F707172737475"},
+					{"type": "B64", "value": "YWJjZGVmZ2hiY2RlZmdoaWNkZWZnaGlqZGVmZ2hpamtlZmdoaWprbGZnaGlqa2xtZ2hpamtsbW5oaWprbG1ub2lqa2xtbm9wamtsbW5vcHFrbG1ub3Bxcmxtbm9wcXJzbW5vcHFyc3Rub3BxcnN0dQ=="},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "7b6df6ff181173b6d7898d7ff63fb07b7c237daf471a5ae5602adbccef9ccf", "shakeLen": 248},
+					{"type": "B64", "value": "e232/xgRc7bXiY1/9j+we3wjfa9HGlrlYCrbzO+czw==", "shakeLen": 248},
+					{"type": "HEX", "value": "7b6df6ff181173b6d7898d7ff63fb07b7c237daf471a5ae5602adbccef9ccf4b37e06b4a3543164ffbe0d0557c02f9b25ad434005526d88ca04a6094b93ee5", "shakeLen": 504},
+					{"type": "B64", "value": "e232/xgRc7bXiY1/9j+we3wjfa9HGlrlYCrbzO+cz0s34GtKNUMWT/vg0FV8AvmyWtQ0AFUm2IygSmCUuT7l", "shakeLen": 504},
+				]
+			},
+			{
+				"name": "Long",
+				"ptInputs": [
+					{"type": "TEXT", "value": millionaAscii},
+					{"type": "HEX", "value": millionaHex},
+					{"type": "B64", "value": millionaB64},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "9d222c79c4ff9d092cf6ca86143aa411e369973808ef97093255826c5572ef", "shakeLen": 248},
+					{"type": "B64", "value": "nSIsecT/nQks9sqGFDqkEeNplzgI75cJMlWCbFVy7w==", "shakeLen": 248},
+					{"type": "HEX", "value": "9d222c79c4ff9d092cf6ca86143aa411e369973808ef97093255826c5572ef58424c4b5c28475ffdcf981663867fec6321c1262e387bccf8ca676884c4a9d0", "shakeLen": 504},
+					{"type": "B64", "value": "nSIsecT/nQks9sqGFDqkEeNplzgI75cJMlWCbFVy71hCTEtcKEdf/c+YFmOGf+xjIcEmLjh7zPjKZ2iExKnQ", "shakeLen": 504},
+				]
+			}
+		]
+	},
+	{
+		"hash": "SHAKE256",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"},
+					{"type": "HEX", "value": "616263"},
+					{"type": "B64", "value": "YWJj"},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "483366601360a8771c6863080cc4114d8db44530f8f1e1ee4f94ea37e78b57", "shakeLen": 248},
+					{"type": "B64", "value": "SDNmYBNgqHccaGMIDMQRTY20RTD48eHuT5TqN+eLVw==", "shakeLen": 248},
+					{"type": "HEX", "value": "483366601360a8771c6863080cc4114d8db44530f8f1e1ee4f94ea37e78b5739d5a15bef186a5386c75744c0527e1faa9f8726e462a12a4feb06bd8801e751", "shakeLen": 504},
+					{"type": "B64", "value": "SDNmYBNgqHccaGMIDMQRTY20RTD48eHuT5TqN+eLVznVoVvvGGpThsdXRMBSfh+qn4cm5GKhKk/rBr2IAedR", "shakeLen": 504},
+				]
+			},
+			{
+				"name": "Medium",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"},
+					{"type": "HEX", "value": "61626364656667686263646566676869636465666768696A6465666768696A6B65666768696A6B6C666768696A6B6C6D6768696A6B6C6D6E68696A6B6C6D6E6F696A6B6C6D6E6F706A6B6C6D6E6F70716B6C6D6E6F7071726C6D6E6F707172736D6E6F70717273746E6F707172737475"},
+					{"type": "B64", "value": "YWJjZGVmZ2hiY2RlZmdoaWNkZWZnaGlqZGVmZ2hpamtlZmdoaWprbGZnaGlqa2xtZ2hpamtsbW5oaWprbG1ub2lqa2xtbm9wamtsbW5vcHFrbG1ub3Bxcmxtbm9wcXJzbW5vcHFyc3Rub3BxcnN0dQ=="},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "98be04516c04cc73593fef3ed0352ea9f6443942d6950e29a372a681c3deaf", "shakeLen": 248},
+					{"type": "B64", "value": "mL4EUWwEzHNZP+8+0DUuqfZEOULWlQ4po3KmgcPerw==", "shakeLen": 248},
+					{"type": "HEX", "value": "98be04516c04cc73593fef3ed0352ea9f6443942d6950e29a372a681c3deaf4535423709b02843948684e029010badcc0acd8303fc85fdad3eabf4f78cae16", "shakeLen": 504},
+					{"type": "B64", "value": "mL4EUWwEzHNZP+8+0DUuqfZEOULWlQ4po3KmgcPer0U1QjcJsChDlIaE4CkBC63MCs2DA/yF/a0+q/T3jK4W", "shakeLen": 504},
+				]
+			},
+			{
+				"name": "Long",
+				"ptInputs": [
+					{"type": "TEXT", "value": millionaAscii},
+					{"type": "HEX", "value": millionaHex},
+					{"type": "B64", "value": millionaB64},
+				],
+				"outputs" : [
+					{"type": "HEX", "value": "3578a7a4ca9137569cdf76ed617d31bb994fca9c1bbf8b184013de8234dfd1", "shakeLen": 248},
+					{"type": "B64", "value": "NXinpMqRN1ac33btYX0xu5lPypwbv4sYQBPegjTf0Q==", "shakeLen": 248},
+					{"type": "HEX", "value": "3578a7a4ca9137569cdf76ed617d31bb994fca9c1bbf8b184013de8234dfd13a3fd124d4df76c0a539ee7dd2f6e1ec346124c815d9410e145eb561bcd97b18", "shakeLen": 504},
+					{"type": "B64", "value": "NXinpMqRN1ac33btYX0xu5lPypwbv4sYQBPegjTf0To/0STU33bApTnufdL24ew0YSTIFdlBDhRetWG82XsY", "shakeLen": 504},
+				]
+			}
+		]
 	}
 ]
 
@@ -396,10 +490,14 @@ hashTests.forEach(function(testSuite) {
 			testSuite["tests"].forEach(function(test) {
 				test["ptInputs"].forEach(function(ptInput) {
 					test["outputs"].forEach(function(output) {
-						var hash = new jsSHA(testSuite["hash"], ptInput["type"]);
+						var options = {}, hash = new jsSHA(testSuite["hash"], ptInput["type"]);
 						hash.update(ptInput["value"]);
+						if (output.hasOwnProperty("shakeLen"))
+						{
+							options["shakeLen"] = output["shakeLen"]
+						}
 						it(test["name"] + " " + ptInput["type"] + " Input - " + output["type"] + " Output", function() {
-							chai.assert.equal(hash.getHash(output["type"]), output["value"]);
+							chai.assert.equal(hash.getHash(output["type"], options), output["value"]);
 						});
 					});
 				});

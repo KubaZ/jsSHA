@@ -3,7 +3,7 @@ if (("undefined" !== typeof module) && module["exports"])
 {
 	mocha = require("mocha");
 	chai = require("chai");
-	jsSHA = require("../src/sha.js");
+	jsSHA = require("../src/sha_dev.js");
 }
 
 String.prototype.repeat = function(times) {

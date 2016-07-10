@@ -1746,7 +1746,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			intermediateState, converterFunc, shaVariant = variant, outputBinLen,
 			variantBlockSize, roundFunc, finalizeFunc, stateCloneFunc,
 			hmacKeySet = false, keyWithIPad = [], keyWithOPad = [], numRounds,
-			updatedCalled = false, inputOptions;
+			updatedCalled = false, inputOptions, isSHAKE = false;
 
 		inputOptions = options || {};
 		utfType = inputOptions["encoding"] || "UTF8";
@@ -1836,12 +1836,14 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				variantBlockSize = 1344;
 				outputBinLen = -1;
 				delimiter = 0x1F;
+				isSHAKE = true;
 			}
 			else if ("SHAKE256" === shaVariant)
 			{
 				variantBlockSize = 1088;
 				outputBinLen = -1;
 				delimiter = 0x1F;
+				isSHAKE = true;
 			}
 			else
 			{
@@ -1884,7 +1886,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("Cannot set HMAC key after calling update");
 			}
 
-			if ((variant.lastIndexOf("SHAKE", 0) === 0) && (8 & SUPPORTED_ALGS))
+			if ((isSHAKE === true) && (8 & SUPPORTED_ALGS))
 			{
 				throw new Error("SHAKE is not supported for HMAC");
 			}
@@ -2001,7 +2003,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 
 			outputOptions = getOutputOpts(options);
 
-			if ((variant.lastIndexOf("SHAKE", 0) === 0) && (8 & SUPPORTED_ALGS))
+			if ((isSHAKE === true) && ((8 & SUPPORTED_ALGS) !== 0))
 			{
 				if (outputOptions["shakeLen"] === -1)
 				{
@@ -2037,6 +2039,16 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			finalizedState = finalizeFunc(remainder.slice(), remainderLen, processedLen, stateCloneFunc(intermediateState), outputBinLen);
 			for (i = 1; i < numRounds; i += 1)
 			{
+				/* This weird fix-up is only for the case of SHAKE algorithms
+				 * and outputBinLen is not a multiple of 32.  In this case, the
+				 * very last block of finalizedState has data that needs to be
+				 * ignored because all the finalizeFunc calls need to have
+				 * unneeded bits set to 0.
+				 */
+				if (((8 & SUPPORTED_ALGS) !== 0) && (isSHAKE === true) && (outputBinLen % 32 !== 0))
+				{
+					finalizedState[finalizedState.length - 1] &= 0xFFFFFF00 << 24 - (outputBinLen % 32);
+				}
 				finalizedState = finalizeFunc(finalizedState, outputBinLen, 0, getNewState(shaVariant), outputBinLen);
 			}
 

@@ -7,7 +7,7 @@ if (("undefined" !== typeof module) && module["exports"])
 }
 
 String.prototype.repeat = function(times) {
-    return (new Array(times + 1)).join(this);
+	return (new Array(times + 1)).join(this);
 }
 
 /* These are used often so make a global copy that everything can reference */
@@ -152,6 +152,36 @@ var multiRoundTests = [
 				]
 			}
 		]
+	},
+	{
+		"hash": "SHAKE128",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"}
+				],
+				"outputs": [
+					{"type": "HEX", "rounds": 5, "value": "99d5aa0763f5bd9464ed4bbc631ecdac6f67e77cbf61c7f7171dd2ffa892ba", "shakeLen": 248},
+					{"type": "HEX", "rounds": 10, "value": "5a5aeb2022e0e92ef4da3dc3e261a9303224b65cf6666f87a4d395a4ab94fe", "shakeLen": 248}
+				]
+			}
+		]
+	},
+	{
+		"hash": "SHAKE256",
+		"tests": [
+			{
+				"name": "Short",
+				"ptInputs": [
+					{"type": "TEXT", "value": "abc"}
+				],
+				"outputs": [
+					{"type": "HEX", "rounds": 5, "value": "70368c73548e76dd6405ea6c1b4358eb0aeb4c0efe73526c7c6e1d9a9e4e0a", "shakeLen": 248},
+					{"type": "HEX", "rounds": 10, "value": "d706c35b6642f39a27635c61c85ab13e76827de8fde4557e25bfc96b445f10", "shakeLen": 248}
+				]
+			}
+		]
 	}
 ]
 
@@ -162,10 +192,14 @@ multiRoundTests.forEach(function(testSuite) {
 			testSuite["tests"].forEach(function(test) {
 				test["ptInputs"].forEach(function(ptInput) {
 					test["outputs"].forEach(function(output) {
-						var hash = new jsSHA(testSuite["hash"], ptInput["type"], {"numRounds": output["rounds"]});
+						var options = {}, hash = new jsSHA(testSuite["hash"], ptInput["type"], {"numRounds": output["rounds"]});
 						hash.update(ptInput["value"]);
 						it(test["name"] + " " + ptInput["type"] + " Input - " + output["type"] + " Output - " + output["rounds"] + " Rounds ", function() {
-							chai.assert.equal(hash.getHash(output["type"]), output["value"]);
+							if (output.hasOwnProperty("shakeLen"))
+							{
+								options["shakeLen"] = output["shakeLen"]
+							}
+							chai.assert.equal(hash.getHash(output["type"], options), output["value"]);
 						});
 					});
 				});

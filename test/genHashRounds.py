@@ -34,7 +34,7 @@ def main():
         ('SHA3-512', sha3.SHA3_512)]
 
     for (sha_type, sha_func) in hash3_funcs:
-        digest = sha_func([0x61, 0x62, 0x63])
+        digest = sha_func([ord(c) for c in 'abc'])
 
         # Only loop 4 times since an iteration was done above
         for x in xrange(0, 4):
@@ -44,6 +44,23 @@ def main():
         # Loop another 5 times to get to 10
         for x in xrange(0, 5):
             digest = sha_func(digest)
+        print('{} with 10 Rounds: {}'.format(sha_type, binascii.hexlify(digest)))
+
+    hash3_funcs = [
+        ('SHAKE128', sha3.SHAKE128),
+        ('SHAKE256', sha3.SHAKE256)]
+
+    for (sha_type, sha_func) in hash3_funcs:
+        digest = sha_func([ord(c) for c in 'abc'], 31)
+
+        # Only loop 4 times since an iteration was done above
+        for x in xrange(0, 4):
+            digest = sha_func(digest, 31)
+        print('{} with 5 Rounds: {}'.format(sha_type, binascii.hexlify(digest)))
+
+        # Loop another 5 times to get to 10
+        for x in xrange(0, 5):
+            digest = sha_func(digest, 31)
         print('{} with 10 Rounds: {}'.format(sha_type, binascii.hexlify(digest)))
 
 if ('__main__' == __name__):

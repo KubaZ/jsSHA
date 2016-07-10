@@ -1,7 +1,7 @@
 /**
  * @preserve A JavaScript implementation of the SHA family of hashes, as
- * defined in FIPS PUB 180-2 as well as the corresponding HMAC implementation
- * as defined in FIPS PUB 198a
+ * defined in FIPS PUB 180-4 and FIPS PUB 202, as well as the corresponding
+ * HMAC implementation as defined in FIPS PUB 198a
  *
  * Copyright Brian Turek 2008-2016
  * Distributed under the BSD License
@@ -9,6 +9,10 @@
  *
  * Several functions taken from Paul Johnston
  */
+
+/*jslint
+	bitwise: true, multivar: true, for: true, this: true, sub: true, esversion: 3
+*/
 
  /**
   * SUPPORTED_ALGS is the stub for a compile flag that will cause pruning of
@@ -259,8 +263,8 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		{
 			throw new Error("Invalid character in base-64 string");
 		}
-		firstEqual = str.indexOf('=');
-		str = str.replace(/\=/g, '');
+		firstEqual = str.indexOf("=");
+		str = str.replace(/\=/g, "");
 		if ((-1 !== firstEqual) && (firstEqual < str.length))
 		{
 			throw new Error("Invalid '=' found in base-64 string");
@@ -540,7 +544,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		case "ARRAYBUFFER":
 			try {
 				retVal = new ArrayBuffer(0);
-			} catch (err) {
+			} catch(ignore) {
 				throw new Error("ARRAYBUFFER not supported by this environment");
 			}
 			retVal = arraybuffer2binb;
@@ -1031,12 +1035,12 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		/* Use the `arguments` object here, not `var_args` */
 		var lowXor = 0, highXor = 0, i;
 
-		for (i = 0; i < arguments.length; i++)
+		for (i = 0; i < arguments.length; i += 1)
 		{
 			lowXor ^= arguments[i].lowOrder;
 			highXor ^= arguments[i].highOrder;
 		}
-		return new Int_64(highXor, lowXor)
+		return new Int_64(highXor, lowXor);
 	}
 
 	/**
@@ -1048,12 +1052,12 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 */
 	function cloneSHA3State(state) {
 		var clone = [], i;
-		for (i = 0; i < 5; i++)
+		for (i = 0; i < 5; i += 1)
 		{
 			clone[i] = state[i].slice();
 		}
 
-		return clone
+		return clone;
 	}
 
 	/**
@@ -1122,7 +1126,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		else if (((variant.lastIndexOf("SHA3-", 0) === 0) || (variant.lastIndexOf("SHAKE", 0) === 0)) &&
 			(8 & SUPPORTED_ALGS))
 		{
-			for (i = 0; i < 5; i++)
+			for (i = 0; i < 5; i += 1)
 			{
 				retVal[i] = [new Int_64(0, 0), new Int_64(0, 0), new Int_64(0, 0), new Int_64(0, 0), new Int_64(0, 0)];
 			}
@@ -1253,7 +1257,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 
 	/* Put this here so the K arrays aren't put on the stack for every block */
 	var K_sha2, K_sha512, r_sha3, rc_sha3;
-	if (6 & SUPPORTED_ALGS)
+	if ((6 & SUPPORTED_ALGS) !== 0)
 	{
 		K_sha2 = [
 			0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -1274,7 +1278,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2
 		];
 
-		if (4 & SUPPORTED_ALGS)
+		if ((4 & SUPPORTED_ALGS) !== 0)
 		{
 			 K_sha512 = [
 				new Int_64(K_sha2[ 0], 0xd728ae22), new Int_64(K_sha2[ 1], 0x23ef65cd),
@@ -1320,7 +1324,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			];
 		}
 	}
-	if (8 & SUPPORTED_ALGS)
+	if ((8 & SUPPORTED_ALGS) !== 0)
 	{
 		rc_sha3 = [
 			new Int_64(0x00000000, 0x00000001), new Int_64(0x00000000, 0x00008082),
@@ -1335,15 +1339,15 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			new Int_64(0x00000000, 0x0000800A), new Int_64(0x80000000, 0x8000000A),
 			new Int_64(0x80000000, 0x80008081), new Int_64(0x80000000, 0x00008080),
 			new Int_64(0x00000000, 0x80000001), new Int_64(0x80000000, 0x80008008)
-		]
+		];
 
 		r_sha3 = [
 			[ 0, 36,  3, 41, 18],
 			[ 1, 44, 10, 45,  2],
 			[62,  6, 43, 15, 61],
 			[28, 55, 25, 21, 56],
-			[27, 20, 39,  8, 14],
-		]
+			[27, 20, 39,  8, 14]
+		];
 	}
 
 	/**
@@ -1594,13 +1598,12 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 					new Int_64(
 						(block[x + 1] & 0xFF) << 24 | (block[x + 1] & 0xFF00) << 8 | (block[x + 1] & 0xFF0000) >>> 8 | block[x + 1] >>> 24,
 						(block[x] & 0xFF) << 24 | (block[x] & 0xFF00) << 8 | (block[x] & 0xFF0000) >>> 8 | block[x] >>> 24
-
 					)
-				)
+				);
 			}
 		}
 
-		for (round = 0; round < 24; round++)
+		for (round = 0; round < 24; round += 1)
 		{
 			/* getNewState doesn't care about variant beyond SHA3 so feed it a
 			   value that triggers the getNewState "if" statement
@@ -1608,39 +1611,39 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			B = getNewState("SHA3-");
 
 			/* Perform theta step */
-			for (x = 0; x < 5; x++)
+			for (x = 0; x < 5; x += 1)
 			{
 				C[x] = xor_64(state[x][0], state[x][1], state[x][2],
 					state[x][3], state[x][4]);
 			}
-			for (x = 0; x < 5; x++)
+			for (x = 0; x < 5; x += 1)
 			{
 				D[x] = xor_64(C[(x + 4) % 5], rotl_64(C[(x + 1) % 5], 1));
 			}
-			for (x = 0; x < 5; x++)
+			for (x = 0; x < 5; x += 1)
 			{
-				for (y = 0; y < 5; y++)
+				for (y = 0; y < 5; y += 1)
 				{
-					state[x][y] = xor_64(state[x][y], D[x])
+					state[x][y] = xor_64(state[x][y], D[x]);
 				}
 			}
 
 			/* Perform combined ro and pi steps */
-			for (x = 0; x < 5; x++)
+			for (x = 0; x < 5; x += 1)
 			{
-				for (y = 0; y < 5; y++)
+				for (y = 0; y < 5; y += 1)
 				{
 					B[y][(2 * x + 3 * y) % 5] = rotl_64(
 						state[x][y],
 						r_sha3[x][y]
-					)
+					);
 				}
 			}
 
 			/* Perform chi step */
-			for (x = 0; x < 5; x++)
+			for (x = 0; x < 5; x += 1)
 			{
-				for (y = 0; y < 5; y++)
+				for (y = 0; y < 5; y += 1)
 				{
 					state[x][y] = xor_64(
 						B[x][y],
@@ -1648,12 +1651,12 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 							~(B[(x + 1) % 5][y].highOrder) & B[(x + 2) % 5][y].highOrder,
 							~(B[(x + 1) % 5][y].lowOrder)  & B[(x + 2) % 5][y].lowOrder
 						)
-					)
+					);
 				}
 			}
 
 			/* Perform iota step */
-			state[0][0] = xor_64(state[0][0], rc_sha3[round])
+			state[0][0] = xor_64(state[0][0], rc_sha3[round]);
 		}
 
 		return state;
@@ -1687,7 +1690,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		for (i = 0; i < remainderIntLen && remainderBinLen >= blockSize; i += binaryStringInc)
 		{
 			state = roundSHA3(remainder.slice(i, i + binaryStringInc), state);
-			remainderBinLen -= blockSize
+			remainderBinLen -= blockSize;
 		}
 
 		remainder = remainder.slice(i);
@@ -1700,26 +1703,26 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		}
 
 		/* Find the next "empty" byte for the 0x80 and append it via an xor */
-		i = remainderBinLen >>> 3
-		remainder[i >> 2] ^= delimiter << (24 - (8 * (i % 4)))
+		i = remainderBinLen >>> 3;
+		remainder[i >> 2] ^= delimiter << (24 - (8 * (i % 4)));
 
-		remainder[binaryStringInc - 1] ^= 0x80
+		remainder[binaryStringInc - 1] ^= 0x80;
 		state = roundSHA3(remainder, state);
 
 		while (retVal.length * 32 < ouputLen)
 		{
-			temp = state[state_offset % 5][(state_offset / 5) | 0]
-			retVal.push((temp.lowOrder & 0xFF) << 24 | (temp.lowOrder & 0xFF00) << 8 | (temp.lowOrder & 0xFF0000) >> 8 | temp.lowOrder >>> 24)
+			temp = state[state_offset % 5][(state_offset / 5) | 0];
+			retVal.push((temp.lowOrder & 0xFF) << 24 | (temp.lowOrder & 0xFF00) << 8 | (temp.lowOrder & 0xFF0000) >> 8 | temp.lowOrder >>> 24);
 			if (retVal.length * 32 >= ouputLen)
 			{
-				break
+				break;
 			}
-			retVal.push((temp.highOrder & 0xFF) << 24 | (temp.highOrder & 0xFF00) << 8 | (temp.highOrder & 0xFF0000) >> 8 | temp.highOrder >>> 24)
+			retVal.push((temp.highOrder & 0xFF) << 24 | (temp.highOrder & 0xFF00) << 8 | (temp.highOrder & 0xFF0000) >> 8 | temp.highOrder >>> 24);
 			state_offset += 1;
 
-			if (0 == ((state_offset * 64) % blockSize))
+			if (0 === ((state_offset * 64) % blockSize))
 			{
-				roundSHA3(null, state)
+				roundSHA3(null, state);
 			}
 		}
 
@@ -1764,7 +1767,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			roundFunc = roundSHA1;
 			finalizeFunc = finalizeSHA1;
 			outputBinLen = 160;
-			stateCloneFunc = function(state) { return state.slice()};
+			stateCloneFunc = function(state) { return state.slice();};
 		}
 		else if ((shaVariant.lastIndexOf("SHA-", 0) === 0) && (6 & SUPPORTED_ALGS))
 		{
@@ -1775,7 +1778,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			{
 				return finalizeSHA2(remainder, remainderBinLen, processedBinLen, H, shaVariant, outputLen);
 			};
-			stateCloneFunc = function(state) { return state.slice()};
+			stateCloneFunc = function(state) { return state.slice(); };
 
 			if (("SHA-224" === shaVariant) && (2 & SUPPORTED_ALGS))
 			{
@@ -1848,7 +1851,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			}
 			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, state, outputLen)
 			{
-				return finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, variantBlockSize, delimiter, outputLen)
+				return finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, variantBlockSize, delimiter, outputLen);
 			};
 		}
 		else
@@ -2024,7 +2027,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			case "ARRAYBUFFER":
 				try {
 					i = new ArrayBuffer(0);
-				} catch (err) {
+				} catch (ignore) {
 					throw new Error("ARRAYBUFFER not supported by this environment");
 				}
 				formatFunc = function(binarray) {return binb2arraybuffer(binarray, outputBinLen);};
@@ -2080,10 +2083,10 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			case "ARRAYBUFFER":
 				try {
 					formatFunc = new ArrayBuffer(0);
-				} catch (err) {
+				} catch(ignore) {
 					throw new Error("ARRAYBUFFER not supported by this environment");
 				}
-				formatFunc = function(binarray) {return binb2arraybuffer(binarray, outputBinLen);};;
+				formatFunc = function(binarray) {return binb2arraybuffer(binarray, outputBinLen);};
 				break;
 			default:
 				throw new Error("outputFormat must be HEX, B64, BYTES, or ARRAYBUFFER");
@@ -2107,7 +2110,8 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	{
 		if (("undefined" !== typeof module) && module["exports"])
 		{
-		  module["exports"] = exports = jsSHA;
+		  module["exports"] = jsSHA;
+		  exports = jsSHA;
 		}
 		else {
 			exports = jsSHA;

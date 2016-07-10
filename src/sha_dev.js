@@ -452,8 +452,8 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 *
 	 * @private
 	 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined),
-	 *   shakeLen : (number:undefined)}=} options Hash list of output formatting options
-	 * @return {{outputUpper : boolean, b64Pad : string}, shakeLen : number} Validated
+	 *   shakeLen : (number|undefined)}=} options Hash list of output formatting options
+	 * @return {{outputUpper : boolean, b64Pad : string, shakeLen : number}} Validated
 	 *   hash list containing output formatting options
 	 */
 	function getOutputOpts(options)
@@ -469,7 +469,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			retVal["b64Pad"] = outputOptions["b64Pad"];
 		}
 
-		if ((true === outputOptions.hasOwnProperty("shakeLen")) && (8 & SUPPORTED_ALGS))
+		if ((true === outputOptions.hasOwnProperty("shakeLen")) && ((8 & SUPPORTED_ALGS) !== 0))
 		{
 			if (outputOptions["shakeLen"] % 8 !== 0)
 			{
@@ -1068,13 +1068,13 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	{
 		var retVal = [], H_trunc, H_full, i;
 
-		if (("SHA-1" === variant) && (1 & SUPPORTED_ALGS))
+		if (("SHA-1" === variant) && ((1 & SUPPORTED_ALGS) !== 0))
 		{
 			retVal = [
 				0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0
 			];
 		}
-		else if ((variant.lastIndexOf("SHA-", 0) === 0) && (6 & SUPPORTED_ALGS))
+		else if ((variant.lastIndexOf("SHA-", 0) === 0) && ((6 & SUPPORTED_ALGS) !== 0))
 		{
 			H_trunc = [
 				0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939,
@@ -1122,7 +1122,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			}
 		}
 		else if (((variant.lastIndexOf("SHA3-", 0) === 0) || (variant.lastIndexOf("SHAKE", 0) === 0)) &&
-			(8 & SUPPORTED_ALGS))
+			((8 & SUPPORTED_ALGS) !== 0))
 		{
 			for (i = 0; i < 5; i += 1)
 			{
@@ -1212,7 +1212,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 *   processed
 	 * @param {Array<number>} H The intermediate H values from a previous
 	 *   round
-	 * @param {number} ouputLen Unused for this variant
+	 * @param {number} outputLen Unused for this variant
 	 * @return {Array<number>} The array of integers representing the SHA-1
 	 *   hash of message
 	 */
@@ -1368,7 +1368,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		/* Set up the various function handles and variable for the specific
 		 * variant */
 		if ((variant === "SHA-224" || variant === "SHA-256") &&
-			(2 & SUPPORTED_ALGS))
+			((2 & SUPPORTED_ALGS) !== 0))
 		{
 			/* 32-bit variant */
 			numRounds = 64;
@@ -1386,7 +1386,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			K = K_sha2;
 		}
 		else if ((variant === "SHA-384" || variant === "SHA-512") &&
-			(4 & SUPPORTED_ALGS))
+			((4 & SUPPORTED_ALGS) !== 0))
 		{
 			/* 64-bit variant */
 			numRounds = 80;
@@ -1471,7 +1471,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * @param {Array<number|Int_64>} H The intermediate H values from a previous
 	 *   round
 	 * @param {string} variant The desired SHA-2 variant
-	 * @param {number} ouputLen Unused for this variant
+	 * @param {number} outputLen Unused for this variant
 	 * @return {Array<number>} The array of integers representing the SHA-2
 	 *   hash of message
 	 */
@@ -1480,7 +1480,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		var i, appendedMessageLength, offset, retVal, binaryStringInc, totalLen;
 
 		if ((variant === "SHA-224" || variant === "SHA-256") &&
-			(2 & SUPPORTED_ALGS))
+			((2 & SUPPORTED_ALGS) !== 0))
 		{
 			/* 32-bit variant */
 			/* The 65 addition is a hack but it works.  The correct number is
@@ -1491,7 +1491,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			binaryStringInc = 16;
 		}
 		else if ((variant === "SHA-384" || variant === "SHA-512") &&
-			(4 & SUPPORTED_ALGS))
+			((4 & SUPPORTED_ALGS) !== 0))
 		{
 			/* 64-bit variant */
 			/* The 129 addition is a hack but it works.  The correct number is
@@ -1529,18 +1529,18 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			H = roundSHA2(remainder.slice(i, i + binaryStringInc), H, variant);
 		}
 
-		if (("SHA-224" === variant) && (2 & SUPPORTED_ALGS))
+		if (("SHA-224" === variant) && ((2 & SUPPORTED_ALGS) !== 0))
 		{
 			retVal = [
 				H[0], H[1], H[2], H[3],
 				H[4], H[5], H[6]
 			];
 		}
-		else if (("SHA-256" === variant) && (2 & SUPPORTED_ALGS))
+		else if (("SHA-256" === variant) && ((2 & SUPPORTED_ALGS) !== 0))
 		{
 			retVal = H;
 		}
-		else if (("SHA-384" === variant) && (4 & SUPPORTED_ALGS))
+		else if (("SHA-384" === variant) && ((4 & SUPPORTED_ALGS) !== 0))
 		{
 			retVal = [
 				H[0].highOrder, H[0].lowOrder,
@@ -1551,7 +1551,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				H[5].highOrder, H[5].lowOrder
 			];
 		}
-		else if (("SHA-512" === variant) && (4 & SUPPORTED_ALGS))
+		else if (("SHA-512" === variant) && ((4 & SUPPORTED_ALGS) !== 0))
 		{
 			retVal = [
 				H[0].highOrder, H[0].lowOrder,
@@ -1759,7 +1759,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			throw new Error("numRounds must a integer >= 1");
 		}
 
-		if (("SHA-1" === shaVariant) && (1 & SUPPORTED_ALGS))
+		if (("SHA-1" === shaVariant) && ((1 & SUPPORTED_ALGS) !== 0))
 		{
 			variantBlockSize = 512;
 			roundFunc = roundSHA1;
@@ -1767,7 +1767,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			outputBinLen = 160;
 			stateCloneFunc = function(state) { return state.slice();};
 		}
-		else if ((shaVariant.lastIndexOf("SHA-", 0) === 0) && (6 & SUPPORTED_ALGS))
+		else if ((shaVariant.lastIndexOf("SHA-", 0) === 0) && ((6 & SUPPORTED_ALGS) !== 0))
 		{
 			roundFunc = function (block, H) {
 				return roundSHA2(block, H, shaVariant);
@@ -1778,22 +1778,22 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			};
 			stateCloneFunc = function(state) { return state.slice(); };
 
-			if (("SHA-224" === shaVariant) && (2 & SUPPORTED_ALGS))
+			if (("SHA-224" === shaVariant) && ((2 & SUPPORTED_ALGS) !== 0))
 			{
 				variantBlockSize = 512;
 				outputBinLen = 224;
 			}
-			else if (("SHA-256" === shaVariant) && (2 & SUPPORTED_ALGS))
+			else if (("SHA-256" === shaVariant) && ((2 & SUPPORTED_ALGS) !== 0))
 			{
 				variantBlockSize = 512;
 				outputBinLen = 256;
 			}
-			else if (("SHA-384" === shaVariant) && (4 & SUPPORTED_ALGS))
+			else if (("SHA-384" === shaVariant) && ((4 & SUPPORTED_ALGS) !== 0))
 			{
 				variantBlockSize = 1024;
 				outputBinLen = 384;
 			}
-			else if (("SHA-512" === shaVariant) && (4 & SUPPORTED_ALGS))
+			else if (("SHA-512" === shaVariant) && ((4 & SUPPORTED_ALGS) !== 0))
 			{
 				variantBlockSize = 1024;
 				outputBinLen = 512;
@@ -1804,7 +1804,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			}
 		}
 		else if (((shaVariant.lastIndexOf("SHA3-", 0) === 0) || (shaVariant.lastIndexOf("SHAKE", 0) === 0)) &&
-			(8 & SUPPORTED_ALGS))
+			((8 & SUPPORTED_ALGS) !== 0))
 		{
 			var delimiter = 0x06;
 
@@ -1886,7 +1886,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("Cannot set HMAC key after calling update");
 			}
 
-			if ((isSHAKE === true) && (8 & SUPPORTED_ALGS))
+			if ((isSHAKE === true) && ((8 & SUPPORTED_ALGS) !== 0))
 			{
 				throw new Error("SHAKE is not supported for HMAC");
 			}
@@ -1987,8 +1987,8 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		 * @expose
 		 * @param {string} format The desired output formatting (B64, HEX,
 		 *   BYTES, or ARRAYBUFFER)
-		 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined)}=}
-		 *   options Hash list of output formatting options
+		 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined),
+		 *   shakeLen : (number|undefined)}=} options Hash list of output formatting options
 		 * @return {string|ArrayBuffer} The string representation of the hash
 		 *   in the format specified.
 		 */
@@ -2062,8 +2062,9 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		 * @expose
 		 * @param {string} format The desired output formatting
 		 *   (B64, HEX, BYTES, or ARRAYBUFFER)
-		 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined)}=}
-		 *   options associative array of output formatting options
+		 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined),
+		 *   shakeLen : (number|undefined)}=} options associative array of output
+		 *   formatting options
 		 * @return {string|ArrayBuffer} The string representation of the hash in the
 		 *   format specified.
 		 */

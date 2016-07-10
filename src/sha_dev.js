@@ -449,14 +449,15 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * presence of every option or adding the default value
 	 *
 	 * @private
-	 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined)}=}
-	 *   options Hash list of output formatting options
-	 * @return {{outputUpper : boolean, b64Pad : string}} Validated hash list
-	 *   containing output formatting options
+	 * @param {{outputUpper : (boolean|undefined), b64Pad : (string|undefined),
+	 *   shakeLen : (number:undefined)}=} options Hash list of output formatting options
+	 * @return {{outputUpper : boolean, b64Pad : string}, shakeLen : number} Validated
+	 *   hash list containing output formatting options
 	 */
 	function getOutputOpts(options)
 	{
-		var retVal = {"outputUpper" : false, "b64Pad" : "="}, outputOptions;
+		var retVal = {"outputUpper" : false, "b64Pad" : "=", "shakeLen" : -1},
+			outputOptions;
 		outputOptions = options || {};
 
 		retVal["outputUpper"] = outputOptions["outputUpper"] || false;
@@ -464,6 +465,15 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		if (true === outputOptions.hasOwnProperty("b64Pad"))
 		{
 			retVal["b64Pad"] = outputOptions["b64Pad"];
+		}
+
+		if ((true === outputOptions.hasOwnProperty("shakeLen")) && (8 & SUPPORTED_ALGS))
+		{
+			if (outputOptions["shakeLen"] % 8 !== 0)
+			{
+				throw new Error("shakeLen must be a multiple of 8");
+			}
+			retVal["shakeLen"] = outputOptions["shakeLen"];
 		}
 
 		if ("boolean" !== typeof(retVal["outputUpper"]))
@@ -1792,13 +1802,12 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("Chosen SHA variant is not supported");
 			}
 		}
-		else if ((shaVariant.lastIndexOf("SHA3-", 0) === 0) && (8 & SUPPORTED_ALGS))
+		else if (((shaVariant.lastIndexOf("SHA3-", 0) === 0) || (shaVariant.lastIndexOf("SHAKE", 0) === 0)) &&
+			(8 & SUPPORTED_ALGS))
 		{
+			var delimiter = 0x06;
+
 			roundFunc = roundSHA3;
-			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, state, outputLen)
-			{
-				return finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, variantBlockSize, 0x06, outputLen)
-			};
 			stateCloneFunc = function(state) { return cloneSHA3State(state);};
 			if ("SHA3-224" === shaVariant)
 			{
@@ -1821,10 +1830,26 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				variantBlockSize = 576;
 				outputBinLen = 512;
 			}
+			else if ("SHAKE128" === shaVariant)
+			{
+				variantBlockSize = 1344;
+				outputBinLen = -1;
+				delimiter = 0x1F;
+			}
+			else if ("SHAKE256" === shaVariant)
+			{
+				variantBlockSize = 1088;
+				outputBinLen = -1;
+				delimiter = 0x1F;
+			}
 			else
 			{
 				throw new Error("Chosen SHA variant is not supported");
 			}
+			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, state, outputLen)
+			{
+				return finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, variantBlockSize, delimiter, outputLen)
+			};
 		}
 		else
 		{
@@ -1853,10 +1878,14 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("HMAC key already set");
 			}
 
-
 			if (true === updatedCalled)
 			{
 				throw new Error("Cannot set HMAC key after calling update");
+			}
+
+			if ((variant.lastIndexOf("SHAKE", 0) === 0) && (8 & SUPPORTED_ALGS))
+			{
+				throw new Error("SHAKE is not supported for HMAC");
 			}
 
 			keyOptions = options || {};
@@ -1970,6 +1999,15 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			}
 
 			outputOptions = getOutputOpts(options);
+
+			if ((variant.lastIndexOf("SHAKE", 0) === 0) && (8 & SUPPORTED_ALGS))
+			{
+				if (outputOptions["shakeLen"] === -1)
+				{
+					throw new Error("shakeLen must be specified in options");
+				}
+				outputBinLen = outputOptions["shakeLen"];
+			}
 
 			/* Validate the output format selection */
 			switch (format)

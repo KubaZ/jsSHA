@@ -376,15 +376,13 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 */
 	function binb2b64(binarray, outputLength, formatOpts)
 	{
-		var str = "", length = outputLength / 8, i, j, triplet, offset, int1, int2,
+		var str = "", length = outputLength / 8, i, j, triplet, int1, int2,
 			b64Tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 		for (i = 0; i < length; i += 3)
 		{
-			offset = (i + 1) >>> 2;
-			int1 = ((outputLength / 32) <= offset) ? 0 : binarray[offset];
-			offset = (i + 2) >>> 2;
-			int2 = ((outputLength / 32) <= offset) ? 0 : binarray[offset];
+			int1 = ((i + 1) < length) ? binarray[(i + 1) >>> 2] : 0;
+			int2 = ((i + 2) < length) ? binarray[(i + 2) >>> 2] : 0;
 			triplet = (((binarray[i >>> 2] >>> 8 * (3 - i % 4)) & 0xFF) << 16) |
 				(((int1 >>> 8 * (3 - (i + 1) % 4)) & 0xFF) << 8) |
 				((int2 >>> 8 * (3 - (i + 2) % 4)) & 0xFF);

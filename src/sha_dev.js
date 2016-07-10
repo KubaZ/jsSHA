@@ -1200,10 +1200,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 *   processed
 	 * @param {Array<number>} H The intermediate H values from a previous
 	 *   round
+	 * @param {number} ouputLen Unused for this variant
 	 * @return {Array<number>} The array of integers representing the SHA-1
 	 *   hash of message
 	 */
-	function finalizeSHA1(remainder, remainderBinLen, processedBinLen, H)
+	function finalizeSHA1(remainder, remainderBinLen, processedBinLen, H, outputLen)
 	{
 		var i, appendedMessageLength, offset, totalLen;
 
@@ -1458,10 +1459,11 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 	 * @param {Array<number|Int_64>} H The intermediate H values from a previous
 	 *   round
 	 * @param {string} variant The desired SHA-2 variant
+	 * @param {number} ouputLen Unused for this variant
 	 * @return {Array<number>} The array of integers representing the SHA-2
 	 *   hash of message
 	 */
-	function finalizeSHA2(remainder, remainderBinLen, processedBinLen, H, variant)
+	function finalizeSHA2(remainder, remainderBinLen, processedBinLen, H, variant, outputLen)
 	{
 		var i, appendedMessageLength, offset, retVal, binaryStringInc, totalLen;
 
@@ -1759,9 +1761,9 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			roundFunc = function (block, H) {
 				return roundSHA2(block, H, shaVariant);
 			};
-			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, H)
+			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, H, outputLen)
 			{
-				return finalizeSHA2(remainder, remainderBinLen, processedBinLen, H, shaVariant);
+				return finalizeSHA2(remainder, remainderBinLen, processedBinLen, H, shaVariant, outputLen);
 			};
 			stateCloneFunc = function(state) { return state.slice()};
 
@@ -1793,9 +1795,9 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		else if ((shaVariant.lastIndexOf("SHA3-", 0) === 0) && (8 & SUPPORTED_ALGS))
 		{
 			roundFunc = roundSHA3;
-			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, state)
+			finalizeFunc = function (remainder, remainderBinLen, processedBinLen, state, outputLen)
 			{
-				return finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, variantBlockSize, 0x06, outputBinLen)
+				return finalizeSHA3(remainder, remainderBinLen, processedBinLen, state, variantBlockSize, 0x06, outputLen)
 			};
 			stateCloneFunc = function(state) { return cloneSHA3State(state);};
 			if ("SHA3-224" === shaVariant)
@@ -1876,7 +1878,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 			if (blockByteSize < (keyBinLen / 8))
 			{
 
-				keyToUse = finalizeFunc(keyToUse, keyBinLen, 0, getNewState(shaVariant));
+				keyToUse = finalizeFunc(keyToUse, keyBinLen, 0,getNewState(shaVariant), outputBinLen);
 				/* For all variants, the block size is bigger than the output
 				 * size so there will never be a useful byte at the end of the
 				 * string */
@@ -1993,10 +1995,10 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("format must be HEX, B64, BYTES, or ARRAYBUFFER");
 			}
 
-			finalizedState = finalizeFunc(remainder.slice(), remainderLen, processedLen, stateCloneFunc(intermediateState));
+			finalizedState = finalizeFunc(remainder.slice(), remainderLen, processedLen, stateCloneFunc(intermediateState), outputBinLen);
 			for (i = 1; i < numRounds; i += 1)
 			{
-				finalizedState = finalizeFunc(finalizedState, outputBinLen, 0, getNewState(shaVariant));
+				finalizedState = finalizeFunc(finalizedState, outputBinLen, 0, getNewState(shaVariant), outputBinLen);
 			}
 
 			return formatFunc(finalizedState);
@@ -2049,9 +2051,9 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 				throw new Error("outputFormat must be HEX, B64, BYTES, or ARRAYBUFFER");
 			}
 
-			firstHash = finalizeFunc(remainder.slice(), remainderLen, processedLen, stateCloneFunc(intermediateState));
+			firstHash = finalizeFunc(remainder.slice(), remainderLen, processedLen, stateCloneFunc(intermediateState), outputBinLen);
 			finalizedState = roundFunc(keyWithOPad, getNewState(shaVariant));
-			finalizedState = finalizeFunc(firstHash, outputBinLen, variantBlockSize, finalizedState);
+			finalizedState = finalizeFunc(firstHash, outputBinLen, variantBlockSize, finalizedState, outputBinLen);
 
 			return formatFunc(finalizedState);
 		};

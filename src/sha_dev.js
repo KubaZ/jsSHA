@@ -2216,7 +2216,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 
 	if (("function" === typeof define) && (define["amd"])) /* AMD Support */
 	{
-		define(function()
+		define('jsSHA', [], function()
 		{
 			return jsSHA;
 		});

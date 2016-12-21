@@ -2214,6 +2214,7 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		};
 	};
 
+	global["jsSHA"] = jsSHA;
 	if (("function" === typeof define) && (define["amd"])) /* AMD Support */
 	{
 		define('jsSHA', [], function()
@@ -2230,7 +2231,5 @@ var SUPPORTED_ALGS = 8 | 4 | 2 | 1;
 		else {
 			exports = jsSHA;
 		}
-	} else { /* Browsers and Web Workers*/
-		global["jsSHA"] = jsSHA;
 	}
 }(this));
